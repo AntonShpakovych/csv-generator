@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+{% block content %}
+  <div class="centralized-container">
+    <div id="login">
+    <form method="post" action="{% url "login" %}">
+      {% csrf_token %}
+      <div class="form-errors">
+        {{ form.non_field_errors.as_text }}
+      </div>
+      {% for field in form %}
+        <div class="mb-3">
+          <label for={{ field.id_for_label }} class="form-label">{{ field.label }}</label>
+          {% if field.name == "password" %}
+            <input type="password" class="form-control" name="{{ field.name }}" id=id_{{ field.name }}>
+          {% else %}
+            <input type="text" class="form-control" name="{{ field.name }}" id=id_{{ field.name }}>
+          {% endif %}
+          <div class="form-errors">
+            {{ field.errors }}
+          </div>
+        </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+  </div>
+  </div>
+{% endblock %}

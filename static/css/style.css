@@ -1,0 +1,52 @@
+ul, li, a {
+    color: #000;
+    text-decoration: none;
+}
+
+.centralized-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+#login {
+    background-color: white;
+    width: 40%;
+    height: 40%;
+    margin: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+    border-radius: 40px;
+    box-shadow: 0 0 10px black;
+}
+
+#login form {
+    width: 70%;
+}
+
+.form-errors{
+    color: red;
+    font-size: 10px;
+}
+
+.navbar .logining-nav {
+    float: right !important;
+}
+
+.navbar {
+    width: 50%;
+    height: 80px;
+    margin: 15px auto;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 40px;
+    box-shadow: 0 0 10px black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+
+}

@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load templatetags %}
+
+
+{% block content %}
+  <div id="schema-column-form-container">
+    <h5>{{ object|yesno:"Edit Schema,Create Schema" }}</h5>
+    <form method="post">
+      {% csrf_token %}
+      <div id="schema-form">
+        <div class="row">
+           <div class="col-md-6">
+            {% for field in form %}
+              <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+              {% if field.errors %}
+                <div class="form-schema-errors">
+                  {{ field.errors }}
+                </div>
+              {% endif %}
+              {{ field }}
+            {% endfor %}
+           </div>
+          <div class="col-md-6">
+            <button id="schema-form-submit" type="submit" class="btn btn-primary">Submit</button>
+          </div>
+        </div>
+      </div>
+      <div id="schema-column-form">
+        <h5>*Schema columns</h5>
+        {{ formset.management_form }}
+        {% if formset.non_form_errors %}
+          <div class="form-schema-errors">
+            {% for error in formset.non_form_errors|get_unique %}
+              <p>*{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        <div class="form-schema-errors">
+          {% with unique_errors=formset|get_unique_errors_from_formset%}
+            <ul class="errorlist">
+              {% for field, message in unique_errors.items %}
+                <li>{{ field }}</li>
+                <small>{{ message }}</small>
+              {% endfor %}
+            </ul>
+          {% endwith %}
+        </div>
+        <div id="empty-column-form-clone">
+          <div class="column-form">
+            <div class="row">
+              {% for field in formset.empty_form.visible_fields%}
+                <div class="{{ formset.bootstrap_sizes|get_value_by_key:field.name }}">
+                  {% if field.label == "Delete" %}
+                    <label class="custom-anchor-checkbox" for="{{ field.id_for_label }}">{{ field.label }}
+                      {{ field }}
+                    </label>
+                  {% else %}
+                    <label for="{{ field.id_for_label }}">{{ field.label }}</label><br>
+                    {{ field }}
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+        <div id="column-forms">
+          {% for form_column in formset %}
+            {% if form_column not in formset.deleted_forms %}
+              {{ form_column.id }}
+              <div class="column-form">
+                <div class="row">
+                  {% for field in form_column.visible_fields %}
+                    <div class="{{ formset.bootstrap_sizes|get_value_by_key:field.name }}">
+                      {% if field.label == "Delete" %}
+                        <label class="custom-anchor-checkbox" for="{{ field.id_for_label }}">{{ field.label }}
+                          {{ field }}
+                        </label>
+                      {% else %}
+                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                      {% endif %}
+                    </div>
+                  {% endfor %}
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+      <button id="schema-add-column" class="btn btn-primary" type="button">Add new column</button>
+      </div>
+    </form>
+  </div>
+{% endblock %}

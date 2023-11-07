@@ -10,7 +10,7 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-  <link rel="stylesheet" href="{% static "css/style.css" %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
   <div class="container-fluid">
@@ -20,7 +20,13 @@
     <div class="container">
       {% block content %}
       {% endblock %}
+      {% block pagination %}
+        {% include "includes/pagination.html" %}
+      {% endblock %}
     </div>
   </div>
+  <script src="{% static 'js/schema_optional_column_input.js' %}"></script>
+  <script src="{% static 'js/schema_new_column.js' %}"></script>
+  <script src="{% static 'js/schema_delete_column.js' %}"></script>
 </body>
 </html>

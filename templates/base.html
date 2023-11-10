@@ -10,7 +10,9 @@
   {% load bootstrap5 %}
   {% bootstrap_css %}
   {% bootstrap_javascript %}
-  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% endblock %}
 </head>
 <body>
   <div class="container-fluid">
@@ -25,8 +27,10 @@
       {% endblock %}
     </div>
   </div>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <script src="{% static 'js/schema_optional_column_input.js' %}"></script>
   <script src="{% static 'js/schema_new_column.js' %}"></script>
   <script src="{% static 'js/schema_delete_column.js' %}"></script>
+  <script src="{% static 'js/dataset_status.js' %}"></script>
 </body>
 </html>

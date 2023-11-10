@@ -1,14 +1,18 @@
-from django.http import HttpResponseRedirect, Http404
-from django.urls import reverse_lazy
+from django.http import HttpResponseRedirect, Http404, JsonResponse
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.views import generic
 from django.contrib.auth import mixins
 
-from csv_generator.models import Schema
-from csv_generator.forms import SchemaCreateForm
+from csv_generator.models import Schema, DataSet
+from csv_generator.forms import SchemaCreateForm, DataSetRowForm
 from csv_generator.formsets import ColumnInlineFormset
 
 
-class SchemaListView(mixins.LoginRequiredMixin, generic.ListView):
+class SchemaListView(
+    mixins.LoginRequiredMixin,
+    generic.ListView
+):
     """List view for schema created by an authorized user"""
     model = Schema
     context_object_name = "schemas"
@@ -18,7 +22,10 @@ class SchemaListView(mixins.LoginRequiredMixin, generic.ListView):
         return Schema.objects.filter(user=self.request.user)
 
 
-class SchemaUpdateView(mixins.LoginRequiredMixin, generic.UpdateView):
+class SchemaUpdateView(
+    mixins.LoginRequiredMixin,
+    generic.UpdateView
+):
     model = Schema
     form_class = SchemaCreateForm
     success_url = reverse_lazy("csv_generator:schema-list")
@@ -45,10 +52,11 @@ class SchemaUpdateView(mixins.LoginRequiredMixin, generic.UpdateView):
 
     def form_valid(self, form, **kwargs):
         self.object = form.save()
-        formset = kwargs.get("formset")
 
+        formset = kwargs.get("formset")
         formset.instance = self.object
         formset.save()
+
         return HttpResponseRedirect(self.get_success_url())
 
     def form_invalid(self, form, **kwargs):
@@ -59,7 +67,10 @@ class SchemaUpdateView(mixins.LoginRequiredMixin, generic.UpdateView):
         )
 
 
-class SchemaCreateView(mixins.LoginRequiredMixin, generic.CreateView):
+class SchemaCreateView(
+    mixins.LoginRequiredMixin,
+    generic.CreateView
+):
     """Create view with additional formsets for `columns`"""
     model = Schema
     form_class = SchemaCreateForm
@@ -100,7 +111,10 @@ class SchemaCreateView(mixins.LoginRequiredMixin, generic.CreateView):
         )
 
 
-class SchemaDeleteView(mixins.LoginRequiredMixin, generic.DeleteView):
+class SchemaDeleteView(
+    mixins.LoginRequiredMixin,
+    generic.DeleteView
+):
     """Delete schema created by an authorized user without confirmation"""
     model = Schema
     success_url = reverse_lazy("csv_generator:schema-list")
@@ -117,3 +131,38 @@ class SchemaDeleteView(mixins.LoginRequiredMixin, generic.DeleteView):
         self.object.delete()
 
         return HttpResponseRedirect(self.get_success_url())
+
+
+class SchemaGenerateCSVView(
+    mixins.LoginRequiredMixin,
+    generic.DetailView,
+    generic.FormView
+):
+    """SchemaGenerateCSV shows an example of the selected schema,
+    the schema datasets. Also contains a form for creating a new dataset
+    """
+    model = Schema
+    template_name = "csv_generator/schema_generate_csv.html"
+    form_class = DataSetRowForm
+
+    def form_valid(self, form):
+        self.object = self.get_object()
+
+        dataset = form.save(commit=False)
+        dataset.schema = self.object
+        dataset.save()
+
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse(
+            "csv_generator:schema-generate-csv",
+            kwargs={"pk": self.object.pk}
+        )
+
+
+class SchemaDatasetStatusView(generic.View):
+    """SchemaDataSetStatus shows dataset status by pk"""
+    def get(self, request, pk):
+        dataset = get_object_or_404(DataSet, pk=pk)
+        return JsonResponse({"status": dataset.status})

@@ -4,30 +4,42 @@ from csv_generator.views import (
     SchemaListView,
     SchemaCreateView,
     SchemaDeleteView,
-    SchemaUpdateView
+    SchemaUpdateView,
+    SchemaGenerateCSVView,
+    SchemaDatasetStatusView
 )
 
 
 urlpatterns = [
     path(
-        "schemas/",
+        "",
         SchemaListView.as_view(),
         name="schema-list"
     ),
     path(
-        "schemas/create/",
+        "create/",
         SchemaCreateView.as_view(),
         name="schema-create",
     ),
     path(
-        "schemas/<int:pk>/delete/",
+        "<int:pk>/delete/",
         SchemaDeleteView.as_view(),
         name="schema-delete"
     ),
     path(
-        "schemas/<int:pk>/update/",
+        "<int:pk>/update/",
         SchemaUpdateView.as_view(),
         name="schema-update"
+    ),
+    path(
+        "<int:pk>/generate_csv/",
+        SchemaGenerateCSVView.as_view(),
+        name="schema-generate-csv"
+    ),
+    path(
+        "datasets/<int:pk>/status/",
+        SchemaDatasetStatusView.as_view(),
+        name="dataset-status"
     )
 ]
 

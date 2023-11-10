@@ -1,7 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+
+from csv_generator.utils import csv_file_path
 
 
 class Schema(models.Model):
@@ -44,15 +47,22 @@ class Schema(models.Model):
 
 class DataSet(models.Model):
     class StatusChoices(models.TextChoices):
-        AVAILABLE = "available", _("Available")
         PROCESSING = "processing", _("Processing")
         READY = "ready", _("Ready")
 
-    rows = models.IntegerField(default=1)
+    rows = models.IntegerField(
+        default=1,
+        validators=[
+            MinValueValidator(
+                1,
+                message="Rows must be greater than or equal to 1"
+            )
+        ]
+    )
     status = models.CharField(
         max_length=10,
         choices=StatusChoices.choices,
-        default=StatusChoices.AVAILABLE
+        default=StatusChoices.PROCESSING
     )
     schema = models.ForeignKey(
         Schema,
@@ -60,12 +70,13 @@ class DataSet(models.Model):
         related_name="datasets"
     )
     created_at = models.DateTimeField(auto_now_add=True)
+    file = models.FileField(upload_to=csv_file_path, null=True, blank=True)
 
     def __str__(self) -> str:
         return f"<DataSet: id={self.id} schema={self.schema}>"
 
     class Meta:
-        ordering = ["status"]
+        ordering = ["-status"]
 
 
 class Column(models.Model):
@@ -86,7 +97,7 @@ class Column(models.Model):
     schema = models.ForeignKey(
         Schema,
         on_delete=models.CASCADE,
-        related_name="columns"
+        related_name="columns",
     )
 
     # optional parameters for integer type
@@ -142,3 +153,4 @@ class Column(models.Model):
             ["name", "schema"],
             ["schema", "order"],
         ]
+        ordering = ["order"]

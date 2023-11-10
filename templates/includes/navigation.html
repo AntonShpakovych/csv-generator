@@ -1,7 +1,6 @@
 <nav class="navbar">
   <h5>CSV-GENERATOR</h5>
   <a href="{% url 'csv_generator:schema-list' %}">Schemas</a>
-  <a href="{% url 'csv_generator:schema-list' %}">DataSets</a>
   <div class="logining-nav">
       {% if user.is_authenticated %}
         <b>{{ user.username }}</b> |

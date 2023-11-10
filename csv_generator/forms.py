@@ -1,6 +1,6 @@
 from django import forms
 
-from csv_generator.models import Schema, Column
+from csv_generator.models import Schema, Column, DataSet
 
 
 class SchemaCreateForm(forms.ModelForm):
@@ -15,6 +15,19 @@ class SchemaCreateForm(forms.ModelForm):
             ),
             "column_separator": forms.Select(attrs={"class": "form-select"}),
             "string_character": forms.Select(attrs={"class": "form-select"}),
+        }
+
+
+class DataSetRowForm(forms.ModelForm):
+    class Meta:
+        model = DataSet
+        fields = ["rows"]
+        widgets = {
+            "rows": forms.NumberInput(
+                attrs={
+                    "class": "form-control"
+                }
+            )
         }
 
 

@@ -6,7 +6,8 @@ from csv_generator.views import (
     SchemaDeleteView,
     SchemaUpdateView,
     SchemaGenerateCSVView,
-    SchemaDatasetStatusView
+    SchemaDatasetStatusView,
+    SchemaDataSetDownloadCSVFileView
 )
 
 
@@ -40,6 +41,11 @@ urlpatterns = [
         "datasets/<int:pk>/status/",
         SchemaDatasetStatusView.as_view(),
         name="dataset-status"
+    ),
+    path(
+        "datasets/<int:pk>/download-csv/",
+        SchemaDataSetDownloadCSVFileView.as_view(),
+        name="dataset-download-csv"
     )
 ]
 

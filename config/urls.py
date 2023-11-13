@@ -12,4 +12,15 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("schemas/", include("csv_generator.urls", namespace="csv_generator")),
     path("", RedirectView.as_view(pattern_name="csv_generator:schema-list"))
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+]
+
+
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
+    urlpatterns += static(
+        settings.STATIC_URL,
+        document_root=settings.STATIC_ROOT
+    )

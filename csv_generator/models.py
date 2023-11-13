@@ -18,7 +18,6 @@ class Schema(models.Model):
     class StringCharacterChoices(models.TextChoices):
         DOUBLE_QUOTES = '"', _("Double quotes")
         SINGLE_QUOTES = "'", _("Single quotes")
-        TRIPLE_QUOTES = '"""', _("Triple quotes")
 
     name = models.CharField(max_length=255, unique=True)
     column_separator = models.CharField(
@@ -83,7 +82,7 @@ class Column(models.Model):
     class TypeChoices(models.TextChoices):
         FULL_NAME = "full_name", _("Full name")
         INTEGER = "integer", _("Integer")
-        Company = "company", _("Company")
+        COMPANY = "company", _("Company")
         JOB = "job", _("Job")
         EMAIL = "email", _("Email")
 

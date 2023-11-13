@@ -64,9 +64,8 @@
           <tr>
             <th scope="row">{{ dataset.pk }}</th>
             <td>{{ dataset.created_at }}</td>
-
-            <td class="status" data-dataset-pk="{{ dataset.pk }}"><span>{{ dataset.status }}</span></td>
-            <td>Download</td>
+            <td class="status" data-dataset-pk="{{ dataset.pk }}"><span></span></td>
+            <td class="actions" data-dataset-pk="{{ dataset.pk }}"><span></span></td>
           </tr>
           {% endfor %}
           </tbody>

@@ -1,4 +1,9 @@
-from django.http import HttpResponseRedirect, Http404, JsonResponse
+from django.http import (
+    HttpResponseRedirect,
+    Http404,
+    JsonResponse,
+    HttpResponse
+)
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import generic
@@ -166,3 +171,17 @@ class SchemaDatasetStatusView(generic.View):
     def get(self, request, pk):
         dataset = get_object_or_404(DataSet, pk=pk)
         return JsonResponse({"status": dataset.status})
+
+
+class SchemaDataSetDownloadCSVFileView(generic.View):
+    def get(self, request, pk):
+        dataset = get_object_or_404(DataSet, pk=pk)
+
+        response = HttpResponse(content_type="text/csv")
+        response[
+            "Content-Disposition"
+        ] = f"attachment; filename='{dataset.file.name}'"
+
+        with open(dataset.file.path, "rb") as csv_file:
+            response.write(csv_file.read())
+        return response

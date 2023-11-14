@@ -1,3 +1,5 @@
+import os
+
 from django.http import (
     HttpResponseRedirect,
     Http404,
@@ -176,11 +178,10 @@ class SchemaDatasetStatusView(generic.View):
 class SchemaDataSetDownloadCSVFileView(generic.View):
     def get(self, request, pk):
         dataset = get_object_or_404(DataSet, pk=pk)
-
         response = HttpResponse(content_type="text/csv")
         response[
             "Content-Disposition"
-        ] = f"attachment; filename='{dataset.file.name}'"
+        ] = f"attachment; filename='{os.path.basename(dataset.file.name)}'"
 
         with open(dataset.file.path, "rb") as csv_file:
             response.write(csv_file.read())

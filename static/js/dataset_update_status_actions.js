@@ -42,7 +42,7 @@ if (window.location.pathname.match(PATH_SCRIPT)) {
             var datasetPk = $(this).data("dataset-pk");
             updateStatusAndActions(datasetPk);
             setInterval(function() {
-                updateStatus(datasetPk);
+                updateStatusAndActions(datasetPk);
             }, 5000);
         });
     });

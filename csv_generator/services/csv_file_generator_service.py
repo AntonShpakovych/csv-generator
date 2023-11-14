@@ -1,7 +1,7 @@
 from __future__ import annotations
+from typing import List, Callable
 
 import os
-from typing import List, Callable
 import csv
 
 from faker import Faker

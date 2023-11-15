@@ -7,16 +7,12 @@
 
 #login {
     background-color: white;
-    width: 40%;
-    height: 40%;
+    width: 50%;
     margin: auto;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border: 1px solid black;
     border-radius: 40px;
     box-shadow: 0 0 10px black;
+    padding: 25px;
 }
 
 .form-errors{
@@ -25,5 +21,11 @@
 }
 
 #login form {
+    padding-top: 20px;
     width: 70%;
+    margin: 0 auto;
+}
+
+#login .sign-up {
+    padding-top: 20px;
 }

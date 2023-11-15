@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>{% block title %}{% endblock %}</title>
+  {% load static %}
+  {% load bootstrap5 %}
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  {% block css %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  {% endblock %}
+</head>
+<body>
+  <div class="container-fluid">
+    {% if user.is_authenticated %}
+        {% include "includes/navigation.html" %}
+    {% endif %}
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+      {% block pagination %}
+        {% include "includes/pagination.html" %}
+      {% endblock %}
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="{% static 'js/schema_optional_column_input.js' %}"></script>
+  <script src="{% static 'js/schema_new_column.js' %}"></script>
+  <script src="{% static 'js/schema_delete_column.js' %}"></script>
+  <script src="{% static 'js/dataset_update_status_actions.js' %}"></script>
+</body>
+</html>

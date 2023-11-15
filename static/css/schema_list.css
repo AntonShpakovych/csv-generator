@@ -1,0 +1,37 @@
+#schema-list td, th {
+    text-align: center;
+    vertical-align: middle;
+}
+
+#schema-list{
+    padding: 30px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 0 10px black;
+    border-radius: 40px;
+}
+
+#schema-list > div {
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#schema-list #new-schema {
+    display: flex;
+    justify-content: space-between;
+}
+
+#schema-list .schema-actions {
+    display: flex;
+    justify-content: center;
+}
+
+#schema-list .schema-actions a {
+    margin: 5px;
+}
+
+@media (max-width: 338px) {
+    #schema-list #new-schema{
+        display: block;
+    }
+}

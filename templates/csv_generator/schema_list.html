@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/schema_list.css' %}">
+{% endblock %}
+
+{% block content %}
+  <div id="schema-list">
+    <div id="new-schema">
+      <h5>Schema List</h5>
+      <a type="button" class="btn btn-success" href="{% url 'csv_generator:schema-create' %}">New Schema</a>
+    </div>
+    <div id="table-schema">
+      <div class="table-responsive rounded-3">
+        {% if schemas %}
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Identifier</th>
+                <th scope="col">Name</th>
+                <th scope="col">Modified</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for schema in schemas %}
+                <tr>
+                  <th scope="row">{{ schema.id }}</th>
+                  <td>{{ schema.name }}</td>
+                  <td>{{ schema.modified }}</td>
+                  <td class="schema-actions">
+                    <a class="btn btn-danger" href="{% url 'csv_generator:schema-delete' pk=schema.pk %}">Delete</a>
+                    <a class="btn btn-success" href="{% url 'csv_generator:schema-update' pk=schema.pk %}">Edit</a>
+                    <a class="btn btn-secondary" href="{% url 'csv_generator:schema-generate-csv' pk=schema.pk %}">CSV</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        {% else %}
+          <p id="empty-collection">You don't have any schemas</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,31 @@
+.centralized-container {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#login {
+    background-color: white;
+    width: 50%;
+    margin: auto;
+    border: 1px solid black;
+    border-radius: 40px;
+    box-shadow: 0 0 10px black;
+    padding: 25px;
+}
+
+.form-errors{
+    color: red;
+    font-size: 10px;
+}
+
+#login form {
+    padding-top: 20px;
+    width: 70%;
+    margin: 0 auto;
+}
+
+#login .sign-up {
+    padding-top: 20px;
+}

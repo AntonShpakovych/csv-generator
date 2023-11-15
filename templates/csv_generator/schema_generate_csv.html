@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block css %}
+  {{ block.super }}
+  <link rel="stylesheet" href="{% static 'css/schema_generate_csv.css' %}">
+{% endblock %}
+
+{% block content %}
+<div id="schema-generate-csv">
+  <div id="edit-schema" class="col-md-6">
+    <h5>Schema example</h5>
+    <a type="button" class="btn btn-success" href="{% url 'csv_generator:schema-update' pk=schema.pk %}">Edit Schema</a>
+  </div>
+  <div id="schema-example" class="col-md-6">
+    <div class="table-responsive rounded-3 sample-schema">
+      <table class="table table-bordered">
+        <thead>
+        <tr>
+          <th scope="col">Order</th>
+          <th scope="col">Column name</th>
+          <th scope="col">Column type</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for column in schema.columns.all %}
+        <tr>
+          <th scope="row">{{ column.order }}</th>
+          <td>{{ column.name }}</td>
+          <td>{{ column.get_type_display }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div id="dataset-form">
+    <h5>Data sets</h5>
+    <form method="post">
+      {% csrf_token %}
+      <div id="rows">
+        <label for="{{ form.rows.id_for_label }}">{{ form.rows.label }}:</label>
+        {{ form.rows }}
+        <button type="submit" class="btn btn-success">Generate data</button>
+      </div>
+
+    </form>
+  </div>
+  <div id="dataset-list">
+    {% if schema.datasets.all %}
+      <div class="table-responsive rounded-3 sample-schema">
+        <table class="table table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Created</th>
+            <th scope="col">Status</th>
+            <th scope="col">Actions</th>
+          </tr>
+          </thead>
+          <tbody>
+          {% for dataset in schema.datasets.all %}
+          <tr>
+            <th scope="row">{{ dataset.pk }}</th>
+            <td>{{ dataset.created_at }}</td>
+            <td class="status" data-dataset-pk="{{ dataset.pk }}"><span></span></td>
+            <td class="actions" data-dataset-pk="{{ dataset.pk }}"><span></span></td>
+          </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    {% else %}
+      <p id="empty-collection">This schema doesn't have any datasets</p>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}

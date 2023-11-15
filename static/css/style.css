@@ -1,0 +1,39 @@
+ul, li, a {
+    color: #000;
+    text-decoration: none;
+}
+
+/*PAGINATION*/
+.pagination {
+    justify-content: center;
+}
+
+/*NAVIGATION*/
+.navbar {
+    width: 50%;
+    height: 80px;
+    margin: 15px auto;
+    background-color: white;
+    border: 1px solid black;
+    border-radius: 40px;
+    box-shadow: 0 0 10px black;
+    justify-content: space-around !important;
+}
+
+@media (max-width: 335px) {
+    .navbar h5 {
+        font-size: 15px;
+    }
+}
+@media (max-width: 783px) {
+    .navbar {
+        display: block;
+        text-align: center;
+        height: 100%;
+    }
+}
+
+#empty-collection {
+    text-align: center;
+    color: red;
+}

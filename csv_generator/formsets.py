@@ -7,12 +7,12 @@ from csv_generator.forms import ColumnCreateForm
 
 class CustomInlineFormSet(BaseInlineFormSet):
     BOOTSTRAP_SIZES = {
-        "name": "col-md-4",
-        "type": "col-md-3",
-        "order": "col-md-1",
-        "integer_from": "col-1",
-        "integer_to": "col-1",
-        "DELETE": "col-md-1"
+        "name": "col-lg-4",
+        "type": "col-lg-3",
+        "order": "col-lg-1",
+        "integer_from": "col-lg-1",
+        "integer_to": "col-lg-1",
+        "DELETE": "col-lg-1"
     }
 
     def __init__(self, *args, **kwargs):

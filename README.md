@@ -23,7 +23,7 @@
 ## Installation
 
 ```shell
-    1) git clone https://github.com/AntonShpakovych/planeks-csv-generator.git
+    1) git clone https://github.com/AntonShpakovych/csv-generator.git
     2) cd into project root
     3) create a .env file based on .env.sample
     4) docker compose up --build
